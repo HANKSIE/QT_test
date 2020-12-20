@@ -13,88 +13,40 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QGraphicsView" name="camera_view">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>10</x>
      <y>20</y>
-     <width>361</width>
-     <height>53</height>
+     <width>491</width>
+     <height>281</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>name:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QTextEdit" name="te_name"/>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>age</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QTextEdit" name="te_age"/>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btn_submit">
-      <property name="text">
-       <string>ok</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QPushButton" name="open_camera_btn">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>90</y>
-     <width>361</width>
-     <height>111</height>
+     <x>10</x>
+     <y>320</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="label_show">
-      <property name="styleSheet">
-       <string notr="true">color:rgb(255, 0, 0)</string>
-      </property>
-      <property name="text">
-       <string>undefined</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="text">
+    <string>開啟相機</string>
+   </property>
   </widget>
-  <widget class="QGraphicsView" name="g_view">
+  <widget class="QPushButton" name="close_camera_btn">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>210</y>
-     <width>741</width>
-     <height>351</height>
+     <x>120</x>
+     <y>320</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>關閉相機</string>
    </property>
   </widget>
  </widget>

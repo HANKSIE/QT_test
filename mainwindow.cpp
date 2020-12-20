@@ -1,31 +1,28 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <opencv2/videoio/videoio.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <QImage>
+#include <QMessageBox>
+#include <QPixmap>
+#include <QGraphicsPixmapItem>
 
-#include "person.h"
-
-using namespace std;
+using namespace cv;
 
 MainWindow::MainWindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainWindow)
 {
+  
     ui->setupUi(this);
+    timer= new QTimer(this);
 
-    /*
-    QGraphicsScene *scene = new QGraphicsScene();
-    scene->addEllipse( 0, 0, 100, 20 );
-    scene->addRect(QRectF(0, 0, 100, 100));
-    ui->g_view->setScene(scene);
-    */
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
 
-
-    /*
-    QGraphicsScene scene;
-    scene.addEllipse( 0, 0, 100, 20 );
-    scene.addRect(QRectF(0, 0, 100, 100));
-    ui->g_view->setScene(&scene);
-    */
-
+    pixels = new QGraphicsPixmapItem();
+    capScene = new QGraphicsScene();
+    ui->camera_view->setScene(capScene);
 }
 
 MainWindow::~MainWindow()
@@ -33,20 +30,37 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// 將 string 轉換成 QString
-QString MainWindow::s2q(const string &s) {
-    return QString(QString::fromLocal8Bit(s.c_str()));
-}
-
-// 將 QString 轉換成 string
-string MainWindow::q2s(const QString &s) {
-     return string(static_cast<const char*>(s.toLocal8Bit()));
-}
-
-void MainWindow::on_btn_submit_clicked()
+void MainWindow::on_open_camera_btn_clicked()
 {
-    string name =q2s(ui->te_name->toPlainText());
-    int age = atoi(q2s(ui->te_age->toPlainText()).c_str());
-    Person *p = new Person(name, age);
-    ui->label_show->setText(s2q(p->intro()));
+    cap.open(0);
+    if (cap.isOpened()) {
+        pixels = new QGraphicsPixmapItem();
+        capScene->addItem(pixels);
+        timer->start(20);
+    }
+    else {
+        QMessageBox::information(this, "Error message", "camera opened fail...");
+    }
+   
 }
+
+void MainWindow::on_close_camera_btn_clicked()
+{
+    timer->stop();
+    cap.release();
+    capScene->clear();
+}
+
+void MainWindow::updateFrame()
+{
+    cap.read(frame);
+
+    if (!frame.data)
+    {
+        QMessageBox::information(this, "Error message", "cannot read frame..");
+    }
+
+    cvtColor(frame, frame, COLOR_BGR2RGB);
+    pixels->setPixmap(QPixmap::fromImage(QImage((const unsigned char*)frame.data, frame.cols, frame.rows, frame.cols * frame.channels(), QImage::Format_RGB888)));
+}
+
