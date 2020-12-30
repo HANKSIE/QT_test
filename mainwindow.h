@@ -25,6 +25,7 @@ public:
 public slots:
     void on_open_camera_btn_clicked();
     void on_close_camera_btn_clicked();
+    void on_open_img_btn_clicked();
 
     void updateFrame();
 
@@ -34,6 +35,7 @@ private:
     VideoCapture cap;
     Mat frame;
     QGraphicsScene *capScene;
+    QGraphicsScene *imgScene;
     QGraphicsPixmapItem *pixels;
 };
 #endif // MAINWINDOW_H
