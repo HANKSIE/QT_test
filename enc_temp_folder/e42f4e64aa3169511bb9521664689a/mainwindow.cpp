@@ -88,5 +88,7 @@ void MainWindow::on_open_img_btn_clicked()
     pixels = new QGraphicsPixmapItem();
     pixels->setPixmap(Converter::Mat2QPixmap(frame));
     imgScene->addItem(pixels);
+    imgScene->setSceneRect(ui->image_view->sceneRect());
+   
 }
 
