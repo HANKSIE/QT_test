@@ -29,11 +29,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
 
     pixels = new QGraphicsPixmapItem();
-    capScene = new QGraphicsScene();
-    imgScene = new myQT::Scene(ui->image_view);
+    
+    //capScene = new QGraphicsScene();
+    //capScene->addItem(pixels);
 
-    capScene->addItem(pixels);
+    imgScene = new myQT::Scene(ui->image_view);
     imgScene->addItem(pixels);
+
+   
 }
 
 MainWindow::~MainWindow()
@@ -86,4 +89,5 @@ void MainWindow::on_open_img_btn_clicked()
         return;
     }
     pixels->setPixmap(Converter::Mat2QPixmap(frame)); 
+    ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
 }
