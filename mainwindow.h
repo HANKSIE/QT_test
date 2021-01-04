@@ -7,6 +7,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 
+#include "scene.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -35,7 +37,7 @@ private:
     VideoCapture cap;
     Mat frame;
     QGraphicsScene *capScene;
-    QGraphicsScene *imgScene;
+    myQT::Scene* imgScene;
     QGraphicsPixmapItem *pixels;
 };
 #endif // MAINWINDOW_H

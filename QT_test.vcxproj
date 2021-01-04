@@ -189,6 +189,7 @@
     <ClCompile Include="converter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
@@ -218,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="converter.h" />
+    <QtMoc Include="scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
