@@ -16,18 +16,18 @@
   <widget class="QGraphicsView" name="image_view">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>80</x>
      <y>20</y>
-     <width>751</width>
-     <height>271</height>
+     <width>641</width>
+     <height>411</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="open_camera_btn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>320</y>
+     <x>80</x>
+     <y>460</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -39,8 +39,8 @@
   <widget class="QPushButton" name="close_camera_btn">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>320</y>
+     <x>190</x>
+     <y>460</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -52,8 +52,8 @@
   <widget class="QPushButton" name="open_img_btn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>370</y>
+     <x>80</x>
+     <y>510</y>
      <width>91</width>
      <height>31</height>
     </rect>

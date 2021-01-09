@@ -27,16 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     timer= new QTimer(this);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
-
-    pixels = new QGraphicsPixmapItem();
-    
-    //capScene = new QGraphicsScene();
-    //capScene->addItem(pixels);
-
+ 
+    capScene = new myQT::Scene(ui->image_view);
     imgScene = new myQT::Scene(ui->image_view);
-    imgScene->addItem(pixels);
-
-   
 }
 
 MainWindow::~MainWindow()
@@ -50,7 +43,9 @@ void MainWindow::updateFrame()
 
     if (!frame.data)
     {
-        QMessageBox::information(this, "Error message", "cannot read frame..");
+        QMessageBox::information(this, "Error", "Cannot read frame. Camera turned off...");
+        this->on_close_camera_btn_clicked();
+        return;
     }
 
     pixels->setPixmap(Converter::Mat2QPixmap(frame));
@@ -59,33 +54,44 @@ void MainWindow::updateFrame()
 
 void MainWindow::on_open_camera_btn_clicked()
 {
-    cap.open(0);
-    if (cap.isOpened()) {
-        ui->image_view->setScene(capScene);
-        timer->start(20);
+    if (!timer->isActive()) {
+        cap.open(0);
+        if (cap.isOpened()) {
+            pixels = new QGraphicsPixmapItem();
+            capScene->addItem(pixels);
+            ui->image_view->setScene(capScene);
+            updateFrame();
+            ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
+            timer->start(20);
+        }
+        else {
+            QMessageBox::information(this, "Error", "Camera failed to turn on ...");
+        }
     }
     else {
-        QMessageBox::information(this, "Error message", "camera opened fail...");
+        QMessageBox::information(this, "Error", "Camera turned on");
     }
-   
 }
 
 void MainWindow::on_close_camera_btn_clicked()
 {
+    capScene->clear();
     timer->stop();
     cap.release();
-    capScene->clear();
 }
 
 
 void MainWindow::on_open_img_btn_clicked()
 {
+    this->on_close_camera_btn_clicked();
+    pixels = new QGraphicsPixmapItem();
+    imgScene->addItem(pixels);
     ui->image_view->setScene(imgScene);
     QString filePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg)");
     frame = imread(Converter::q2s(filePath), IMREAD_COLOR);
     if (frame.empty())
     {
-        QMessageBox::information(this, "Error message", "Could not read the image: " + filePath);
+        QMessageBox::information(this, "Error", "Could not read the image: " + filePath);
         return;
     }
     pixels->setPixmap(Converter::Mat2QPixmap(frame)); 

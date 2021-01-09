@@ -8,7 +8,6 @@ void myQT::Scene::wheelEvent(QGraphicsSceneWheelEvent* event){
     if (event->delta() > 0) {
         // Zoom in
         view->scale(scaleFactor, scaleFactor);
-
     }
     else {
         // Zooming out
