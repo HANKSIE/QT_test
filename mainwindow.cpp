@@ -84,9 +84,7 @@ void MainWindow::on_close_camera_btn_clicked()
 void MainWindow::on_open_img_btn_clicked()
 {
     this->on_close_camera_btn_clicked();
-    pixels = new QGraphicsPixmapItem();
-    imgScene->addItem(pixels);
-    ui->image_view->setScene(imgScene);
+    imgScene->clear();
     QString filePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg)");
     frame = imread(Converter::q2s(filePath), IMREAD_COLOR);
     if (frame.empty())
@@ -94,6 +92,9 @@ void MainWindow::on_open_img_btn_clicked()
         QMessageBox::information(this, "Error", "Could not read the image: " + filePath);
         return;
     }
+    pixels = new QGraphicsPixmapItem();
     pixels->setPixmap(Converter::Mat2QPixmap(frame)); 
+    imgScene->addItem(pixels);
+    ui->image_view->setScene(imgScene);
     ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
 }
