@@ -7,7 +7,6 @@
 #include <QPixmap>
 
 using namespace std;
-using namespace cv;
 
 namespace helper {
 	class Converter {
@@ -18,7 +17,7 @@ namespace helper {
 		// ±N QString Âà´«¦¨ string
 		static string q2s(const QString&);
 
-		static QPixmap Mat2QPixmap(const Mat);
+		static QPixmap Mat2QPixmap(const cv::Mat);
 	};
 }
 

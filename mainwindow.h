@@ -13,9 +13,6 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-using namespace std;
-using namespace cv;
-
 class MainWindow : public QDialog
 {
     Q_OBJECT
@@ -34,8 +31,8 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
-    VideoCapture cap;
-    Mat frame;
+    cv::VideoCapture cap;
+    cv::Mat frame;
     QGraphicsScene *capScene;
     myQT::Scene* imgScene;
     QGraphicsPixmapItem *pixels;
