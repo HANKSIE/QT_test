@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
  
     capScene = new myQT::Scene(ui->image_view);
     imgScene = new myQT::Scene(ui->image_view);
-
+   
     pixels = new QGraphicsPixmapItem();
 }
 
@@ -51,7 +51,7 @@ void MainWindow::updateFrame()
         return;
     }
 
-    pixels->setPixmap(helper::Converter::Mat2QPixmap(frame));
+    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
 }
 
 
@@ -88,16 +88,29 @@ void MainWindow::on_open_img_btn_clicked()
 {
     this->on_close_camera_btn_clicked();
     imgScene->clear();
+    
     QString filePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg)");
-    frame = cv::imread(helper::Converter::q2s(filePath), cv::IMREAD_COLOR);
+    frame = cv::imread(my::Converter::q2s(filePath), cv::IMREAD_COLOR);
     if (frame.empty())
     {
         QMessageBox::information(this, "Error", "Could not read the image: " + filePath);
         return;
     }
     pixels = new QGraphicsPixmapItem();
-    pixels->setPixmap(helper::Converter::Mat2QPixmap(frame));
+    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
     imgScene->addItem(pixels);
     ui->image_view->setScene(imgScene);
     ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
+}
+
+void MainWindow::on_reverseH_clicked()
+{
+    cv::flip(frame, frame, 1);
+    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
+}
+
+void MainWindow::on_reverseV_clicked()
+{
+    cv::flip(frame, frame, 0);
+    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
 }

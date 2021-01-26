@@ -25,7 +25,8 @@ public slots:
     void on_open_camera_btn_clicked();
     void on_close_camera_btn_clicked();
     void on_open_img_btn_clicked();
-
+    void on_reverseH_clicked();
+    void on_reverseV_clicked();
     void updateFrame();
 
 private:

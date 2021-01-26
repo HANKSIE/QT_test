@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace helper {
+namespace my {
 	class Converter {
 	public:
 		// ±N string Âà´«¦¨ QString
