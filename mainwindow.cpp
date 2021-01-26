@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
   
     ui->setupUi(this);
 
-    ui->image_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->image_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //ui->image_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //ui->image_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     timer= new QTimer(this);
 
@@ -113,8 +113,6 @@ void MainWindow::on_reverseH_clicked()
 
 void MainWindow::on_reverseV_clicked()
 {
-    cv::Mat dst;
-    cv::flip(frame, dst, 0);
-    frame = dst;
+    cv::flip(frame, frame, 0);
     pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
 }
