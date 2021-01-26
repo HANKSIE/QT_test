@@ -10,6 +10,7 @@ string my::Converter::q2s(const QString& s) {
 }
 
 QPixmap my::Converter::Mat2QPixmap(const cv::Mat m) {
-    cv::cvtColor(m, m, cv::COLOR_BGR2RGB);
-    return QPixmap::fromImage(QImage((const unsigned char*)m.data, m.cols, m.rows, m.cols * m.channels(), QImage::Format_RGB888));
+    cv::Mat clone = m.clone();
+    cv::cvtColor(m, clone, cv::COLOR_BGR2RGB);
+    return QPixmap::fromImage(QImage((const unsigned char*)clone.data, clone.cols, clone.rows, clone.cols * clone.channels(), QImage::Format_RGB888));
 }

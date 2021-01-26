@@ -98,19 +98,23 @@ void MainWindow::on_open_img_btn_clicked()
     }
     pixels = new QGraphicsPixmapItem();
     pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
+    
     imgScene->addItem(pixels);
     ui->image_view->setScene(imgScene);
     ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
+
 }
 
 void MainWindow::on_reverseH_clicked()
 {
-    cv::flip(frame, frame, 1);
+    cv::flip(frame, frame, 1);   
     pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
 }
 
 void MainWindow::on_reverseV_clicked()
 {
-    cv::flip(frame, frame, 0);
+    cv::Mat dst;
+    cv::flip(frame, dst, 0);
+    frame = dst;
     pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
 }
