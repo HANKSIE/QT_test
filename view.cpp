@@ -1,12 +1,9 @@
-#include <QPointF>
 #include "view.h"
-#include "QDebug"
-#include <QScrollBar>
 
 void my::widget::View::wheelEvent(QWheelEvent* event) {
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
     // Scale the view / do the zoom
-    double scaleFactor = 1.15;
+    QPointF oldPos = mapToScene(event->pos());
     if (event->delta() > 0) {
         // Zoom in
         scale(scaleFactor, scaleFactor);
@@ -15,6 +12,11 @@ void my::widget::View::wheelEvent(QWheelEvent* event) {
         // Zooming out
         scale(1.0 / scaleFactor, 1.0 / scaleFactor);
     }
+
+    QPointF newPos = mapToScene(event->pos());
+    QPointF move = newPos - oldPos;
+    setTransformationAnchor(QGraphicsView::NoAnchor);
+    translate(move.x(), move.y());
 }
 
 void my::widget::View::mousePressEvent(QMouseEvent* event) {
@@ -23,8 +25,8 @@ void my::widget::View::mousePressEvent(QMouseEvent* event) {
     {
         isMove = true;
         QPointF p = event->pos();
-        startX = p.x();
-        startY = p.y();
+        origin.setX(p.x());
+        origin.setY(p.y());
 
         setCursor(Qt::ClosedHandCursor);
         return;
@@ -46,16 +48,14 @@ void my::widget::View::mouseMoveEvent(QMouseEvent* event) {
     if (isMove)
     {
         QPointF p = event->pos();
-        
-        int moveX = p.x() - startX;
-        int moveY = p.y() - startY;
+        QPointF move = p - origin;
+
         setTransformationAnchor(QGraphicsView::NoAnchor);
-        translate(moveX, moveY);
+        translate(move.x(), move.y());
 
-        startX = p.x();
-        startY = p.y();
+        origin.setX(p.x());
+        origin.setY(p.y());
 
-        qDebug() << "x: " << sceneRect().x() << ", y:" << sceneRect().y();
     }
 
 }

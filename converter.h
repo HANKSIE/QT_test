@@ -2,7 +2,6 @@
 #define CONVERTER_H
 
 #include <opencv2/core.hpp>
-#include <iostream>
 #include <QString>
 #include <QPixmap>
 

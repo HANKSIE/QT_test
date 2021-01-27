@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QWheelEvent>
 #include <QMouseEvent>
+#include <QPointF>
 
 namespace my {
 	namespace widget {
@@ -11,8 +12,8 @@ namespace my {
 
 		private:
 			bool isMove = false;
-			int startX;
-			int startY;
+			double scaleFactor = 1.15;
+			QPointF origin;
 
 		protected:
 			void wheelEvent(QWheelEvent*);
