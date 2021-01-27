@@ -3,17 +3,13 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
-#include <QImage>
 #include <QMessageBox>
-#include <QPixmap>
-#include <QGraphicsPixmapItem>
-#include <QString>
 #include <QFileDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "converter.h"
-#include "scene.h"
+#include "view.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QDialog(parent)
@@ -21,16 +17,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
   
     ui->setupUi(this);
+    
+    main_view = new my::widget::View();
+    main_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    main_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    //ui->image_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //ui->image_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+    ui->view_layout->addWidget(main_view);
+   
     timer= new QTimer(this);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
  
-    capScene = new myQT::Scene(ui->image_view);
-    imgScene = new myQT::Scene(ui->image_view);
+    capScene = new QGraphicsScene();
+    imgScene = new QGraphicsScene();
    
     pixels = new QGraphicsPixmapItem();
 }
@@ -62,9 +61,9 @@ void MainWindow::on_open_camera_btn_clicked()
         if (cap.isOpened()) {
             pixels = new QGraphicsPixmapItem();
             capScene->addItem(pixels);
-            ui->image_view->setScene(capScene);
+            main_view->setScene(capScene);
             updateFrame();
-            ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
+            main_view->fitInView(pixels, Qt::KeepAspectRatio);
             timer->start(20);
         }
         else {
@@ -100,8 +99,8 @@ void MainWindow::on_open_img_btn_clicked()
     pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
     
     imgScene->addItem(pixels);
-    ui->image_view->setScene(imgScene);
-    ui->image_view->fitInView(pixels, Qt::KeepAspectRatio);
+    main_view->setScene(imgScene);
+    main_view->fitInView(pixels, Qt::KeepAspectRatio);
 
 }
 

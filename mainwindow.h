@@ -1,13 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QDialog>
 #include <opencv2/videoio/videoio.hpp>
+
+#include <QDialog>
 #include <QTimer>
+#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-
-#include "scene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,8 +34,9 @@ private:
     QTimer *timer;
     cv::VideoCapture cap;
     cv::Mat frame;
-    QGraphicsScene *capScene;
-    myQT::Scene* imgScene;
+    QGraphicsScene* capScene;
+    QGraphicsScene* imgScene;
+    QGraphicsView* main_view;
     QGraphicsPixmapItem *pixels;
 };
 #endif // MAINWINDOW_H
