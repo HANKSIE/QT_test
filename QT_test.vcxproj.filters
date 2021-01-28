@@ -54,6 +54,9 @@
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="cameraSceneContext.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -73,6 +76,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgProcTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgProcTaskExecutor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imageSceneContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,9 +5,12 @@
 
 #include <QDialog>
 #include <QTimer>
-#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include "view.h"
+#include "imageSceneContext.h"
+#include "cameraSceneContext.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +23,11 @@ class MainWindow : public QDialog
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    enum class Mode
+    {
+        NONE, IMAGE, CAMERA
+    };
+    Mode mode = Mode::NONE;
 
 public slots:
     void on_open_camera_btn_clicked();
@@ -27,16 +35,12 @@ public slots:
     void on_open_img_btn_clicked();
     void on_reverseH_clicked();
     void on_reverseV_clicked();
-    void updateFrame();
 
 private:
     Ui::MainWindow *ui;
-    QTimer *timer;
-    cv::VideoCapture cap;
-    cv::Mat frame;
-    QGraphicsScene* capScene;
-    QGraphicsScene* imgScene;
-    QGraphicsView* main_view;
-    QGraphicsPixmapItem *pixels;
+    my::widget::View* main_view;
+    my::ImageSceneContext* imageSceneContext;
+    my::CameraSceneContext* cameraSceneContext;
+    
 };
 #endif // MAINWINDOW_H

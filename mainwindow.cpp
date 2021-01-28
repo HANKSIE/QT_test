@@ -1,4 +1,3 @@
-#include <opencv2/videoio/videoio.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui.hpp>
@@ -10,6 +9,9 @@
 #include "ui_mainwindow.h"
 #include "converter.h"
 #include "view.h"
+
+#include "flip.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QDialog(parent)
@@ -23,15 +25,16 @@ MainWindow::MainWindow(QWidget *parent)
     main_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     ui->view_layout->addWidget(main_view);
-   
-    timer= new QTimer(this);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
- 
-    capScene = new QGraphicsScene();
-    imgScene = new QGraphicsScene();
-   
-    pixels = new QGraphicsPixmapItem();
+
+    my::ImgProcTaskExecutor executor;
+    my::Flip* fH = new my::Flip(1);
+    my::Flip* fV = new my::Flip(0);
+    executor.insert("flipH", fH);
+    executor.insert("flipV", fV);
+    imageSceneContext = new my::ImageSceneContext(executor);
+
+    cameraSceneContext = new my::CameraSceneContext(executor);
 }
 
 MainWindow::~MainWindow()
@@ -39,79 +42,56 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::updateFrame()
-{
-    cap.read(frame);
-
-    if (!frame.data)
-    {
-        QMessageBox::information(this, "Error", "Cannot read frame. Camera turned off...");
-        this->on_close_camera_btn_clicked();
-        return;
-    }
-
-    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
-}
-
-
 void MainWindow::on_open_camera_btn_clicked()
 {
-    if (!timer->isActive()) {
-        cap.open(0);
-        if (cap.isOpened()) {
-            pixels = new QGraphicsPixmapItem();
-            capScene->addItem(pixels);
-            main_view->setScene(capScene);
-            updateFrame();
-            main_view->fitInView(pixels, Qt::KeepAspectRatio);
-            timer->start(20);
-        }
-        else {
-            QMessageBox::information(this, "Error", "Camera failed to turn on ...");
-        }
+    mode = Mode::CAMERA;
+    if (cameraSceneContext->open()) {
+        main_view->setScene(cameraSceneContext);
+        main_view->fitInView(cameraSceneContext->getPixels(), Qt::KeepAspectRatio);
     }
     else {
-        QMessageBox::information(this, "Error", "Camera turned on");
+        QMessageBox::information(this, "Error", "Cannot read frame. Camera turned off...");
     }
+   
 }
 
 void MainWindow::on_close_camera_btn_clicked()
 {
-    capScene->clear();
-    timer->stop();
-    cap.release();
+    mode = Mode::NONE;
+    cameraSceneContext->close();
 }
-
 
 void MainWindow::on_open_img_btn_clicked()
 {
-    this->on_close_camera_btn_clicked();
-    imgScene->clear();
-    
+    mode = Mode::IMAGE;
     QString filePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg)");
-    frame = cv::imread(my::Converter::q2s(filePath), cv::IMREAD_COLOR);
-    if (frame.empty())
-    {
-        QMessageBox::information(this, "Error", "Could not read the image: " + filePath);
-        return;
+    if (imageSceneContext->load(my::Converter::q2s(filePath))) {
+        main_view->setScene(imageSceneContext);
+        main_view->fitInView(imageSceneContext->getPixels(), Qt::KeepAspectRatio);
+        cameraSceneContext->close();
     }
-    pixels = new QGraphicsPixmapItem();
-    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
-    
-    imgScene->addItem(pixels);
-    main_view->setScene(imgScene);
-    main_view->fitInView(pixels, Qt::KeepAspectRatio);
-
 }
 
 void MainWindow::on_reverseH_clicked()
 {
-    cv::flip(frame, frame, 1);   
-    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
+    if (mode == Mode::CAMERA) {
+        my::Flip* fH = dynamic_cast<my::Flip*>(cameraSceneContext->executor.find("flipH"));
+        fH->isEnable() ? fH->disable(): fH->enable();
+    }
+
+    if (mode == Mode::IMAGE) {
+        imageSceneContext->process("flipH");
+    }
 }
 
 void MainWindow::on_reverseV_clicked()
 {
-    cv::flip(frame, frame, 0);
-    pixels->setPixmap(my::Converter::Mat2QPixmap(frame));
+    if (mode == Mode::CAMERA) {
+        my::Flip* fV = dynamic_cast<my::Flip*>(cameraSceneContext->executor.find("flipV"));
+        fV->isEnable() ? fV->disable() : fV->enable();
+    }
+
+    if (mode == Mode::IMAGE) {
+        imageSceneContext->process("flipV");
+    }
 }
