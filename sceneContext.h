@@ -3,7 +3,10 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
+
 #include <opencv2/highgui/highgui.hpp>
+
 #include "converter.h"
 #include "imgProcTaskExecutor.h"
 
@@ -21,10 +24,15 @@ namespace my {
 	public:
 		ImgProcTaskExecutor executor;
 		SceneContext(ImgProcTaskExecutor e) : executor(e) {};
-		~SceneContext() { delete _pixels; };
+		~SceneContext() { delete _pixels; }
 		const QGraphicsPixmapItem* getPixels() {
 			return _pixels;
 		}
+
+	protected:
+		void mousePressEvent(QGraphicsSceneMouseEvent* event) {}
+		void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {}
+		void mouseMoveEvent(QGraphicsSceneMouseEvent* event) {}
 	};
 }
 

@@ -23,11 +23,17 @@ class MainWindow : public QDialog
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    enum class Mode
+    enum class Scene
     {
         NONE, IMAGE, CAMERA
     };
-    Mode mode = Mode::NONE;
+    enum class Mode
+    {
+        DRAG, LINE
+    };
+
+    Scene currScene = Scene::NONE;
+    Mode mode = Mode::DRAG;
 
 public slots:
     void on_open_camera_btn_clicked();
