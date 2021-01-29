@@ -6,6 +6,13 @@
 namespace my {
 	class ImageSceneContext : public SceneContext {
 		using SceneContext::SceneContext;
+	protected slots:
+		void updateFrame() override
+		{
+			executor.run(frame);
+			update();
+			frame = origin.clone();
+		}
 	private:
 		cv::Mat origin;
 
@@ -19,6 +26,7 @@ namespace my {
 				origin = frame.clone();
 				_pixels = new QGraphicsPixmapItem();
 				addItem(_pixels);
+				timer->start(100);
 				update();
 			}
 			
@@ -26,6 +34,7 @@ namespace my {
 		}
 
 		void close() {
+			timer->stop();
 			clear();
 			executor.resetProcesses();
 		}

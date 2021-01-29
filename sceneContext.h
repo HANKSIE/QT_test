@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QTimer>
 
 #include <opencv2/highgui/highgui.hpp>
 
@@ -15,6 +16,11 @@ namespace my {
 	typedef Process<cv::Mat> ImageProcess;
 	class SceneContext : public QGraphicsScene {
 		
+		Q_OBJECT
+
+	protected slots:
+		virtual void updateFrame() = 0;
+
 	protected:
 		cv::Mat frame;
 		QGraphicsPixmapItem* _pixels;
@@ -27,7 +33,10 @@ namespace my {
 	public:
 		
 		ProcessExecutor<cv::Mat> executor;
-		SceneContext(ProcessExecutor<cv::Mat> executor):executor(executor) {}
+		SceneContext(ProcessExecutor<cv::Mat> executor):executor(executor) {
+			timer = new QTimer(this);
+			connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
+		}
 		
 		const QGraphicsPixmapItem* getPixels() {
 			return _pixels;

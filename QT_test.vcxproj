@@ -218,11 +218,11 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="cameraSceneContext.h" />
+    <ClInclude Include="cameraSceneContext.h" />
     <ClInclude Include="converter.h" />
     <ClInclude Include="flip.h" />
     <ClInclude Include="imageSceneContext.h" />
-    <ClInclude Include="sceneContext.h" />
+    <QtMoc Include="sceneContext.h" />
     <ClInclude Include="process.h" />
     <ClInclude Include="processExecutor.h" />
     <ClInclude Include="view.h" />

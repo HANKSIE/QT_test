@@ -54,7 +54,7 @@
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="cameraSceneContext.h">
+    <QtMoc Include="sceneContext.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -84,13 +84,13 @@
     <ClInclude Include="process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sceneContext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="processExecutor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imageSceneContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraSceneContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
