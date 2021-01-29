@@ -44,13 +44,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_open_camera_btn_clicked()
 {
-    currScene = Scene::CAMERA;
     if (cameraSceneContext->open()) {
+        currScene = Scene::CAMERA;
         main_view->setScene(cameraSceneContext);
         main_view->fitInView(cameraSceneContext->getPixels(), Qt::KeepAspectRatio);
     }
     else {
-        QMessageBox::information(this, "Error", "Cannot read frame. Camera turned off...");
+        QMessageBox::information(this, "Error", "Cannot turn on camera");
     }
    
 }
