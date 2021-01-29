@@ -5,12 +5,22 @@ void my::widget::View::wheelEvent(QWheelEvent* event) {
     // Scale the view / do the zoom
     QPointF oldPos = mapToScene(event->pos());
     if (event->delta() > 0) {
+        if (scaleCount == static_cast<int>(Scale::MAX)) {
+            return;
+        }
+        
         // Zoom in
         scale(scaleFactor, scaleFactor);
+        scaleCount++;
     }
     else {
+        if (scaleCount == static_cast<int>(Scale::MIN)) {
+            return;
+        }
+
         // Zooming out
         scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        scaleCount--;
     }
 
     QPointF newPos = mapToScene(event->pos());
