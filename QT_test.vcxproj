@@ -218,13 +218,13 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cameraSceneContext.h" />
+    <QtMoc Include="cameraSceneContext.h" />
     <ClInclude Include="converter.h" />
     <ClInclude Include="flip.h" />
     <ClInclude Include="imageSceneContext.h" />
-    <QtMoc Include="sceneContext.h" />
-    <ClInclude Include="imgProcTask.h" />
-    <ClInclude Include="imgProcTaskExecutor.h" />
+    <ClInclude Include="sceneContext.h" />
+    <ClInclude Include="process.h" />
+    <ClInclude Include="processExecutor.h" />
     <ClInclude Include="view.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

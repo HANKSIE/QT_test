@@ -8,12 +8,13 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include "converter.h"
-#include "imgProcTaskExecutor.h"
-#include <QTimer>
+#include "processExecutor.h"
+#include "process.h"
 
 namespace my {
+	typedef Process<cv::Mat> ImageProcess;
 	class SceneContext : public QGraphicsScene {
-		Q_OBJECT
+		
 	protected:
 		cv::Mat frame;
 		QGraphicsPixmapItem* _pixels;
@@ -24,24 +25,19 @@ namespace my {
 		}
 
 	public:
-		ImgProcTaskExecutor executor;
-		SceneContext(ImgProcTaskExecutor e) {
-			executor = e;
-			timer = new QTimer(this);
-			connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
-		};
+		
+		ProcessExecutor<cv::Mat> executor;
+		SceneContext(ProcessExecutor<cv::Mat> executor):executor(executor) {}
 		
 		const QGraphicsPixmapItem* getPixels() {
 			return _pixels;
 		}
-
+		/*
 	protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event) {}
 		void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {}
 		void mouseMoveEvent(QGraphicsSceneMouseEvent* event) {}
-
-	private slots:
-		virtual void updateFrame()=0;
+		*/
 	};
 }
 

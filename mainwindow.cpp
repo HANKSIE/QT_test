@@ -10,6 +10,7 @@
 #include "converter.h"
 #include "view.h"
 
+#include "processExecutor.h"
 #include "flip.h"
 
 
@@ -27,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->view_layout->addWidget(main_view);
 
 
-    my::ImgProcTaskExecutor executor;
+    my::ProcessExecutor<cv::Mat> executor;
     my::Flip* fH = new my::Flip(1);
     my::Flip* fV = new my::Flip(0);
     executor.insert("flipH", fH);
@@ -76,21 +77,21 @@ void MainWindow::on_open_img_btn_clicked()
 void MainWindow::on_reverseH_clicked()
 {
     if (currScene == Scene::CAMERA) {
-        cameraSceneContext->executor.task("flipH")->turn();
+        cameraSceneContext->executor.process("flipH")->turn();
     }
 
     if (currScene == Scene::IMAGE) {
-        imageSceneContext->executor.task("flipH")->turn();
+        imageSceneContext->executor.process("flipH")->turn();
     }
 }
 
 void MainWindow::on_reverseV_clicked()
 {
     if (currScene == Scene::CAMERA) {
-        cameraSceneContext->executor.task("flipV")->turn();
+        cameraSceneContext->executor.process("flipV")->turn();
     }
 
     if (currScene == Scene::IMAGE) {
-        imageSceneContext->executor.task("flipV")->turn();
+        imageSceneContext->executor.process("flipV")->turn();
     }
 }

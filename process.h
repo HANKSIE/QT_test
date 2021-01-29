@@ -1,14 +1,18 @@
-#ifndef IMGPROCTASK_H
-#define IMGPROCTASK_H
-
-#include <opencv2/core/core.hpp>
+#ifndef PROCESS_H
+#define PROCESS_H
 
 namespace my {
-	class ImgProcTask {
+	template <class T>
+	class Process {
 	protected:
 		bool _isEnable = false;
 	public:
-		virtual void handle(const cv::Mat) {};
+		void run(const T arg) {
+			if (isEnable()) {
+				define(arg);
+			}
+		};
+		virtual void define(T) = 0;
 		virtual void reset() { disable(); };
 		void enable() { _isEnable = true; };
 		void disable() { _isEnable = false; };

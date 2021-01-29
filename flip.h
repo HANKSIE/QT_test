@@ -2,16 +2,16 @@
 #define FLIP_H
 
 #include <opencv2/core/core.hpp>
-#include "imgProcTask.h"
+#include "process.h"
 
 namespace my {
-	class Flip : public ImgProcTask {
+	class Flip : public Process<cv::Mat> {
 	private:
 		int flipCode;
 
 	public:
 		Flip(int flipCode) :flipCode(flipCode) {};
-		void handle(const cv::Mat m) override {
+		void define(const cv::Mat m) override {
 			cv::flip(m, m, flipCode);
 		};
 	};
