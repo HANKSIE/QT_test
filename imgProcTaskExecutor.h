@@ -53,6 +53,13 @@ namespace my {
 			ImgProcTaskQueue::iterator it = queue.find(name);
 			return it == queue.end() ? nullptr : it->second ;
 		}
+
+		void resetTask() {
+			for (auto const& it : queue) {
+				my::ImgProcTask* task = it.second;
+				task->reset();
+			}
+		}
 	};
 }
 

@@ -49,6 +49,7 @@ namespace my {
             timer->stop();
             cap.release();
             clear();
+            executor.resetTask();
         }
 	};
 }

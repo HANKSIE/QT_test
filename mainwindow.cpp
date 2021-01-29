@@ -75,8 +75,7 @@ void MainWindow::on_open_img_btn_clicked()
 void MainWindow::on_reverseH_clicked()
 {
     if (mode == Mode::CAMERA) {
-        my::Flip* fH = dynamic_cast<my::Flip*>(cameraSceneContext->executor.find("flipH"));
-        fH->isEnable() ? fH->disable(): fH->enable();
+        cameraSceneContext->executor.find("flipH")->turn();
     }
 
     if (mode == Mode::IMAGE) {
@@ -87,8 +86,7 @@ void MainWindow::on_reverseH_clicked()
 void MainWindow::on_reverseV_clicked()
 {
     if (mode == Mode::CAMERA) {
-        my::Flip* fV = dynamic_cast<my::Flip*>(cameraSceneContext->executor.find("flipV"));
-        fV->isEnable() ? fV->disable() : fV->enable();
+        cameraSceneContext->executor.find("flipV")->turn();
     }
 
     if (mode == Mode::IMAGE) {

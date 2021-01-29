@@ -9,8 +9,10 @@ namespace my {
 		bool _isEnable = false;
 	public:
 		virtual void handle(const cv::Mat) {};
+		virtual void reset() { disable(); };
 		void enable() { _isEnable = true; };
 		void disable() { _isEnable = false; };
+		void turn() { _isEnable = !_isEnable; }
 		bool isEnable() { return _isEnable; };
 	};
 }
