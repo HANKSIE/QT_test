@@ -17,13 +17,13 @@ namespace my {
 		void run(T arg) {
 			
 			for (auto const& it : queue) {
-				my::Process<T>* task = it.second;
-				task->run(arg);
+				my::Process<T>* proc = it.second;
+				proc->run(arg);
 			}
 		}
 
-		void insert(std::string name, my::Process<T>* task) {
-			queue[name] = task;
+		void insert(std::string name, my::Process<T>* proc) {
+			queue[name] = proc;
 		}
 
 		void remove(std::string name) {
@@ -44,8 +44,8 @@ namespace my {
 
 		void resetProcesses() {
 			for (auto const& it : queue) {
-				my::Process<T>* task = it.second;
-				task->reset();
+				my::Process<T>* proc = it.second;
+				proc->reset();
 			}
 		}
 	};
