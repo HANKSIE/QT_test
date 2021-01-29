@@ -9,11 +9,10 @@ namespace my {
 	public:
 		bool load(std::string filePath) {
 
-			clear();
-
 			frame = cv::imread(filePath);
 			if (!frame.empty())
 			{
+				reset();
 				_pixels = new QGraphicsPixmapItem();
 				addItem(_pixels);
 				update();
@@ -24,10 +23,16 @@ namespace my {
 		void process(std::string task) {
 
 			if (frame.data) {
-				executor.runTask(task, frame);
+				executor.task(task)->handle(frame);
 				update();
 			}
 		}
+
+		void reset() {
+			clear();
+			executor.resetTask();
+		}
+		
 	};
 }
 

@@ -75,7 +75,7 @@ void MainWindow::on_open_img_btn_clicked()
 void MainWindow::on_reverseH_clicked()
 {
     if (mode == Mode::CAMERA) {
-        cameraSceneContext->executor.find("flipH")->turn();
+        cameraSceneContext->executor.task("flipH")->turn();
     }
 
     if (mode == Mode::IMAGE) {
@@ -86,7 +86,7 @@ void MainWindow::on_reverseH_clicked()
 void MainWindow::on_reverseV_clicked()
 {
     if (mode == Mode::CAMERA) {
-        cameraSceneContext->executor.find("flipV")->turn();
+        cameraSceneContext->executor.task("flipV")->turn();
     }
 
     if (mode == Mode::IMAGE) {

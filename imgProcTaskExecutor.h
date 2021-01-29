@@ -38,18 +38,7 @@ namespace my {
 			queue.clear();
 		}
 
-		void runTask(std::string name, cv::Mat m) {
-			ImgProcTaskQueue::iterator it = queue.find(name);
-
-			if (it != queue.end()) {
-				ImgProcTask* task = it->second;
-				if (task->isEnable()) {
-					task->handle(m);
-				}
-			}
-		}
-
-		ImgProcTask* find(std::string name) {
+		ImgProcTask* task(std::string name) {
 			ImgProcTaskQueue::iterator it = queue.find(name);
 			return it == queue.end() ? nullptr : it->second ;
 		}
