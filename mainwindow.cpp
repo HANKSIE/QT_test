@@ -46,6 +46,7 @@ void MainWindow::on_open_camera_btn_clicked()
 {
     if (cameraSceneContext->open()) {
         currScene = Scene::CAMERA;
+        imageSceneContext->close();
         main_view->setScene(cameraSceneContext);
         main_view->fitInView(cameraSceneContext->getPixels(), Qt::KeepAspectRatio);
     }
@@ -65,7 +66,7 @@ void MainWindow::on_open_img_btn_clicked()
 {
     currScene = Scene::IMAGE;
     QString filePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg)");
-    if (imageSceneContext->load(my::Converter::q2s(filePath))) {
+    if (imageSceneContext->open(my::Converter::q2s(filePath))) {
         main_view->setScene(imageSceneContext);
         main_view->fitInView(imageSceneContext->getPixels(), Qt::KeepAspectRatio);
         cameraSceneContext->close();
@@ -79,7 +80,7 @@ void MainWindow::on_reverseH_clicked()
     }
 
     if (currScene == Scene::IMAGE) {
-        imageSceneContext->process("flipH");
+        imageSceneContext->executor.task("flipH")->turn();
     }
 }
 
@@ -90,6 +91,6 @@ void MainWindow::on_reverseV_clicked()
     }
 
     if (currScene == Scene::IMAGE) {
-        imageSceneContext->process("flipV");
+        imageSceneContext->executor.task("flipV")->turn();
     }
 }

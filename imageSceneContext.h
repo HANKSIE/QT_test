@@ -6,33 +6,40 @@
 namespace my {
 	class ImageSceneContext : public SceneContext {
 		using SceneContext::SceneContext;
-	public:
-		bool load(std::string filePath) {
+	protected slots:
+		void updateFrame() override
+		{
+			executor.run(frame);
+			update();
+			frame = origin.clone();
+		}
 
-			frame = cv::imread(filePath);
-			if (!frame.empty())
-			{
-				reset();
-				_pixels = new QGraphicsPixmapItem();
-				addItem(_pixels);
-				update();
+	
+	private:
+		cv::Mat origin;
+	public:
+		bool open(std::string filePath) {
+
+			frame = cv::imread(filePath); 
+			if (!timer->isActive()) {
+				if (!frame.empty())
+				{
+					origin = frame.clone();
+					_pixels = new QGraphicsPixmapItem();
+					addItem(_pixels);
+					updateFrame();
+					timer->start(100);
+				}
 			}
+			
 			return !frame.empty();
 		}
 
-		void process(std::string task) {
-
-			if (frame.data) {
-				executor.task(task)->handle(frame);
-				update();
-			}
-		}
-
-		void reset() {
+		void close() {
+			timer->stop();
 			clear();
 			executor.resetTask();
 		}
-		
 	};
 }
 

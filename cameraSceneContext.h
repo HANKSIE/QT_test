@@ -2,18 +2,16 @@
 #define CAMERASCENECONTEXT_H
 
 #include <opencv2/videoio/videoio.hpp>
-#include <QTimer>
 #include "sceneContext.h"
 
 namespace my {
 	class CameraSceneContext : public SceneContext {
-        Q_OBJECT
+        using SceneContext::SceneContext;
 	private:
 		cv::VideoCapture cap;
-		QTimer* timer;
 
-    private slots:
-        void updateFrame()
+    protected slots:
+        void updateFrame() override
         {
             cap.read(frame);
             executor.run(frame);
@@ -21,11 +19,6 @@ namespace my {
         }
 
 	public:
-
-        CameraSceneContext(ImgProcTaskExecutor e): SceneContext(e) {
-            timer = new QTimer(this);
-            connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
-        }
 
 		bool open() {
             if (cap.isOpened()) {
