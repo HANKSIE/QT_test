@@ -27,15 +27,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->view_layout->addWidget(main_view);
 
-
-    my::ProcessExecutor<cv::Mat> executor;
     my::Flip* fH = new my::Flip(1);
     my::Flip* fV = new my::Flip(0);
     executor.insert("flipH", fH);
     executor.insert("flipV", fV);
-    imageSceneContext = new my::ImageSceneContext(executor);
 
-    cameraSceneContext = new my::CameraSceneContext(executor);
+    imageSceneContext = new my::widget::ImageSceneContext(executor);
+    cameraSceneContext = new my::widget::CameraSceneContext(executor);
 }
 
 MainWindow::~MainWindow()
@@ -46,7 +44,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_open_camera_btn_clicked()
 {
     if (cameraSceneContext->open()) {
-        currScene = Scene::CAMERA;
         imageSceneContext->close();
         main_view->setScene(cameraSceneContext);
         main_view->fitInView(cameraSceneContext->getPixels(), Qt::KeepAspectRatio);
@@ -59,13 +56,11 @@ void MainWindow::on_open_camera_btn_clicked()
 
 void MainWindow::on_close_camera_btn_clicked()
 {
-    currScene = Scene::NONE;
     cameraSceneContext->close();
 }
 
 void MainWindow::on_open_img_btn_clicked()
 {
-    currScene = Scene::IMAGE;
     QString filePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg)");
     if (imageSceneContext->open(my::Converter::q2s(filePath))) {
         main_view->setScene(imageSceneContext);
@@ -76,22 +71,10 @@ void MainWindow::on_open_img_btn_clicked()
 
 void MainWindow::on_reverseH_clicked()
 {
-    if (currScene == Scene::CAMERA) {
-        cameraSceneContext->executor.process("flipH")->turn();
-    }
-
-    if (currScene == Scene::IMAGE) {
-        imageSceneContext->executor.process("flipH")->turn();
-    }
+    executor.process("flipH")->turn();
 }
 
 void MainWindow::on_reverseV_clicked()
 {
-    if (currScene == Scene::CAMERA) {
-        cameraSceneContext->executor.process("flipV")->turn();
-    }
-
-    if (currScene == Scene::IMAGE) {
-        imageSceneContext->executor.process("flipV")->turn();
-    }
+    executor.process("flipV")->turn();
 }

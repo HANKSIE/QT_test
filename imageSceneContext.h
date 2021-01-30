@@ -4,41 +4,43 @@
 #include "sceneContext.h"
 
 namespace my {
-	class ImageSceneContext : public SceneContext {
-		using SceneContext::SceneContext;
-	protected slots:
-		void updateFrame() override
-		{
-			executor.run(frame);
-			update();
-			frame = origin.clone();
-		}
-	private:
-		cv::Mat origin;
-
-	public:
-
-		bool open(std::string filePath) {
-
-			frame = cv::imread(filePath); 
-			if (!frame.empty())
+	namespace widget {
+		class ImageSceneContext : public SceneContext {
+			using SceneContext::SceneContext;
+		protected slots:
+			void updateFrame() override
 			{
-				origin = frame.clone();
-				_pixels = new QGraphicsPixmapItem();
-				addItem(_pixels);
-				timer->start(100);
+				executor.run(frame);
 				update();
+				frame = origin.clone();
 			}
-			
-			return !frame.empty();
-		}
+		private:
+			cv::Mat origin;
 
-		void close() {
-			timer->stop();
-			clear();
-			executor.resetProcesses();
-		}
-	};
+		public:
+
+			bool open(std::string filePath) {
+
+				frame = cv::imread(filePath);
+				if (!frame.empty())
+				{
+					origin = frame.clone();
+					_pixels = new QGraphicsPixmapItem();
+					addItem(_pixels);
+					timer->start(100);
+					update();
+				}
+
+				return !frame.empty();
+			}
+
+			void close() {
+				timer->stop();
+				clear();
+				executor.resetProcesses();
+			}
+		};
+	}
 }
 
 #endif

@@ -10,7 +10,7 @@
 #include "view.h"
 #include "imageSceneContext.h"
 #include "cameraSceneContext.h"
-
+#include "processExecutor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,17 +23,13 @@ class MainWindow : public QDialog
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    enum class Scene
-    {
-        NONE, IMAGE, CAMERA
-    };
+
     enum class Mode
     {
         DRAG, LINE
     };
 
-    Scene currScene = Scene::NONE;
-    Mode mode = Mode::DRAG;
+    Mode mode;
 
 public slots:
     void on_open_camera_btn_clicked();
@@ -45,8 +41,8 @@ public slots:
 private:
     Ui::MainWindow *ui;
     my::widget::View* main_view;
-    my::ImageSceneContext* imageSceneContext;
-    my::CameraSceneContext* cameraSceneContext;
-    
+    my::widget::ImageSceneContext* imageSceneContext;
+    my::widget::CameraSceneContext* cameraSceneContext;
+    my::ProcessExecutor<cv::Mat> executor;
 };
 #endif // MAINWINDOW_H

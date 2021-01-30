@@ -11,10 +11,6 @@ namespace my {
 		class View : public QGraphicsView {
 
 		private:
-			enum class Scale
-			{
-				MIN = 0, MAX = 10
-			};
 			bool isMove = false;
 			double scaleFactor = 1.15;
 			int scaleCount = 0;

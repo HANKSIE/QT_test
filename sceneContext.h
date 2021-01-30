@@ -13,41 +13,43 @@
 #include "process.h"
 
 namespace my {
-	typedef Process<cv::Mat> ImageProcess;
-	class SceneContext : public QGraphicsScene {
-		
-		Q_OBJECT
+	namespace widget {
+		typedef Process<cv::Mat> ImageProcess;
+		class SceneContext : public QGraphicsScene {
 
-	protected slots:
-		virtual void updateFrame() = 0;
+			Q_OBJECT
 
-	protected:
-		cv::Mat frame;
-		QGraphicsPixmapItem* _pixels;
-		QTimer* timer;
-		
-		void update() {
-			_pixels->setPixmap(Converter::Mat2QPixmap(frame));
-		}
+		protected slots:
+			virtual void updateFrame() = 0;
 
-	public:
-		
-		ProcessExecutor<cv::Mat> executor;
-		SceneContext(ProcessExecutor<cv::Mat> executor):executor(executor) {
-			timer = new QTimer(this);
-			connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
-		}
-		
-		const QGraphicsPixmapItem* getPixels() {
-			return _pixels;
-		}
-		/*
-	protected:
-		void mousePressEvent(QGraphicsSceneMouseEvent* event) {}
-		void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {}
-		void mouseMoveEvent(QGraphicsSceneMouseEvent* event) {}
-		*/
-	};
+		protected:
+			cv::Mat frame;
+			QGraphicsPixmapItem* _pixels;
+			QTimer* timer;
+
+			void update() {
+				_pixels->setPixmap(Converter::Mat2QPixmap(frame));
+			}
+
+		public:
+
+			ProcessExecutor<cv::Mat> executor;
+			SceneContext(ProcessExecutor<cv::Mat> executor) :executor(executor) {
+				timer = new QTimer(this);
+				connect(timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
+			}
+
+			const QGraphicsPixmapItem* getPixels() {
+				return _pixels;
+			}
+			/*
+		protected:
+			void mousePressEvent(QGraphicsSceneMouseEvent* event) {}
+			void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {}
+			void mouseMoveEvent(QGraphicsSceneMouseEvent* event) {}
+			*/
+		};
+	}
 }
 
 #endif
