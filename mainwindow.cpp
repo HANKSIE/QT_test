@@ -78,3 +78,17 @@ void MainWindow::on_reverseV_clicked()
 {
     executor.process("flipV")->turn();
 }
+
+void MainWindow::on_dragMove_clicked()
+{
+    main_view->setDragMove(true);
+    imageSceneContext->setDrawMode(my::widget::SceneContext::Draw::NONE);
+    cameraSceneContext->setDrawMode(my::widget::SceneContext::Draw::NONE);
+}
+
+void MainWindow::on_drawLine_clicked()
+{
+    main_view->setDragMove(false);
+    imageSceneContext->setDrawMode(my::widget::SceneContext::Draw::LINE);
+    cameraSceneContext->setDrawMode(my::widget::SceneContext::Draw::LINE);
+}

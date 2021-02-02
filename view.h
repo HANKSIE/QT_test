@@ -15,12 +15,16 @@ namespace my {
 			double scaleFactor = 1.15;
 			int scaleCount = 0;
 			QPointF origin;
+			bool isDragMove = true;
 
 		protected:
 			void wheelEvent(QWheelEvent*) override;
 			void mousePressEvent(QMouseEvent*) override;
 			void mouseReleaseEvent(QMouseEvent*) override;
 			void mouseMoveEvent(QMouseEvent*) override;
+
+		public:
+			void setDragMove(bool);
 		};
 	}
 }

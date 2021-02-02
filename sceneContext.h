@@ -22,6 +22,16 @@ namespace my {
 		protected slots:
 			virtual void updateFrame() = 0;
 
+		public:
+			enum class Draw
+			{
+				NONE, LINE
+			};
+
+			void setDrawMode(Draw type) {
+				drawMode = type;
+			}
+
 		protected:
 			cv::Mat frame;
 			QGraphicsPixmapItem* _pixels;
@@ -31,9 +41,12 @@ namespace my {
 			}
 			QGraphicsLineItem* opItem;
 			bool isMove = false;
+			Draw drawMode = Draw::NONE;
 			QPointF start;
 			QPointF end;
+
 		public:
+
 			ProcessExecutor<cv::Mat> executor;
 			SceneContext(ProcessExecutor<cv::Mat> executor) :executor(executor) {
 				timer = new QTimer(this);
@@ -48,14 +61,16 @@ namespace my {
 			void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
 				if (event->button() == Qt::LeftButton)
 				{
-					isMove = true;
-					start = event->scenePos();
-					QLineF l(start, start);
-					QGraphicsLineItem* line = new QGraphicsLineItem();
-					line->setLine(l);
-					line->setPen(createPen());
-					addItem(line);
-					opItem = line;
+					if (drawMode == Draw::LINE) {
+						isMove = true;
+						start = event->scenePos();
+						QLineF l(start, start);
+						QGraphicsLineItem* line = new QGraphicsLineItem();
+						line->setLine(l);
+						line->setPen(createPen());
+						addItem(line);
+						opItem = line;
+					}
 				}
 			}
 
@@ -65,9 +80,11 @@ namespace my {
 
 			void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override {
 				if (isMove) {
-					QLineF l = opItem->line();
-					l.setP2(event->scenePos());
-					opItem->setLine(l);
+					if (drawMode == Draw::LINE) {
+						QLineF l = opItem->line();
+						l.setP2(event->scenePos());
+						opItem->setLine(l);
+					}
 				}
 			}
 

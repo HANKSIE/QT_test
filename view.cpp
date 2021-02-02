@@ -28,6 +28,9 @@ void my::widget::View::mousePressEvent(QMouseEvent* event) {
     QGraphicsView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton)
     {
+        if (!isDragMove) {
+            return;
+        }
         isMove = true;
         QPointF p = event->pos();
         origin.setX(p.x());
@@ -43,6 +46,9 @@ void my::widget::View::mouseReleaseEvent(QMouseEvent* event) {
     QGraphicsView::mouseReleaseEvent(event);
     if (event->button() == Qt::LeftButton)
     {
+        if (!isDragMove) {
+            return;
+        }
         isMove = false;
         setCursor(Qt::ArrowCursor);
     }
@@ -53,6 +59,9 @@ void my::widget::View::mouseMoveEvent(QMouseEvent* event) {
     QGraphicsView::mouseMoveEvent(event);
     if (isMove)
     {
+        if (!isDragMove) {
+            return;
+        }
         QPointF p = event->pos();
         QPointF move = p - origin;
 
@@ -65,3 +74,7 @@ void my::widget::View::mouseMoveEvent(QMouseEvent* event) {
     }
 
 }
+
+void my::widget::View::setDragMove(bool isEnable) {
+    isDragMove = isEnable;
+};

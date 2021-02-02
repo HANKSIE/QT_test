@@ -24,19 +24,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    enum class Mode
-    {
-        DRAG, LINE
-    };
-
-    Mode mode;
-
-public slots:
+private slots:
     void on_open_camera_btn_clicked();
     void on_close_camera_btn_clicked();
     void on_open_img_btn_clicked();
     void on_reverseH_clicked();
     void on_reverseV_clicked();
+    void on_dragMove_clicked();
+    void on_drawLine_clicked();
+   
 
 private:
     Ui::MainWindow *ui;

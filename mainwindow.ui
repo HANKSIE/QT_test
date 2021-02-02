@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>890</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>490</y>
+     <x>230</x>
+     <y>550</y>
      <width>161</width>
      <height>80</height>
     </rect>
@@ -70,8 +70,8 @@
   <widget class="QWidget" name="horizontalLayoutWidget_3">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>10</y>
+     <x>230</x>
+     <y>70</y>
      <width>641</width>
      <height>51</height>
     </rect>
@@ -96,15 +96,67 @@
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>80</y>
+     <x>230</x>
+     <y>140</y>
      <width>641</width>
      <height>391</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="view_layout"/>
   </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>186</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="toolbar">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QPushButton" name="dragMove">
+        <property name="text">
+         <string>移動</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="drawLine">
+        <property name="text">
+         <string>畫線</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>reverseH</tabstop>
+  <tabstop>reverseV</tabstop>
+  <tabstop>drawLine</tabstop>
+  <tabstop>dragMove</tabstop>
+  <tabstop>open_camera_btn</tabstop>
+  <tabstop>close_camera_btn</tabstop>
+  <tabstop>open_img_btn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
