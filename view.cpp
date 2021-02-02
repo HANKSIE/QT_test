@@ -25,7 +25,7 @@ void my::widget::View::wheelEvent(QWheelEvent* event) {
 }
 
 void my::widget::View::mousePressEvent(QMouseEvent* event) {
-
+    QGraphicsView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton)
     {
         isMove = true;
@@ -40,6 +40,7 @@ void my::widget::View::mousePressEvent(QMouseEvent* event) {
 
 
 void my::widget::View::mouseReleaseEvent(QMouseEvent* event) {
+    QGraphicsView::mouseReleaseEvent(event);
     if (event->button() == Qt::LeftButton)
     {
         isMove = false;
@@ -49,7 +50,7 @@ void my::widget::View::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void my::widget::View::mouseMoveEvent(QMouseEvent* event) {
-
+    QGraphicsView::mouseMoveEvent(event);
     if (isMove)
     {
         QPointF p = event->pos();
