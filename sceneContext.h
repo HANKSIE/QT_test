@@ -39,11 +39,9 @@ namespace my {
 			void update() {
 				_pixels->setPixmap(Converter::Mat2QPixmap(frame));
 			}
-			QGraphicsLineItem* opItem;
+			QGraphicsLineItem* opLine;
 			bool isMove = false;
 			Draw drawMode = Draw::NONE;
-			QPointF start;
-			QPointF end;
 
 		public:
 
@@ -63,27 +61,27 @@ namespace my {
 				{
 					if (drawMode == Draw::LINE) {
 						isMove = true;
-						start = event->scenePos();
-						QLineF l(start, start);
-						QGraphicsLineItem* line = new QGraphicsLineItem();
-						line->setLine(l);
-						line->setPen(createPen());
+						QPointF p = event->scenePos();
+						QGraphicsLineItem* line = createLine(p, p);
 						addItem(line);
-						opItem = line;
+						opLine = line;
 					}
 				}
 			}
 
 			void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override {
 				isMove = false;
+				if (drawMode == Draw::LINE) {
+					opLine = nullptr;
+				}
 			}
 
 			void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override {
 				if (isMove) {
 					if (drawMode == Draw::LINE) {
-						QLineF l = opItem->line();
+						QLineF l = opLine->line();
 						l.setP2(event->scenePos());
-						opItem->setLine(l);
+						opLine->setLine(l);
 					}
 				}
 			}
@@ -94,6 +92,14 @@ namespace my {
 				QBrush brush(c);
 				QPen pen(brush, 10);
 				return pen;
+			}
+
+			QGraphicsLineItem* createLine(QPointF p1, QPointF p2) {
+				QLineF l(p1, p2);
+				QGraphicsLineItem* line = new QGraphicsLineItem();
+				line->setLine(l);
+				line->setPen(createPen());
+				return line;
 			}
 		};
 	}
